@@ -195,6 +195,28 @@ open class Model {
         userDidSet()
         return user
     }
+
+    /// Verifies the credentials of a given username-password combination.
+    /// - Parameters:
+    ///   - name: The name of the ``User`` that is used to authenticate the ``User``
+    ///   - password: The password of the ``User`` that is used to authenticate the ``User``
+    /// - Returns: The ``User`` for the given username, if the password check succeeded.
+    open func verifyCredentials(_ name: String, password: String) async throws -> User {
+        guard let user = users.first(where: { $0.name == name }), user.verify(password: password) else {
+            throw XpenseServiceError.loginFailed
+        }
+        return user
+    }
+
+    /// Creates a new login token for a given ``User`` instance.
+    /// - Parameter user: The ``User`` instance for which a new authentication token shall be created.
+    /// - Returns: Returns the freshly created auth token.
+    open func createToken(for user: inout User) async -> String {
+        let token = user.createToken()
+        users.update(with: user)
+        userDidSet()
+        return token
+    }
     
     /// Provides the login functionality of the `Model`
     /// - Parameters:
@@ -203,13 +225,8 @@ open class Model {
     /// - Returns: The token that can be used to further authenticate requests to the Xpense Web Service
     @discardableResult
     open func login(_ name: String, password: String) async throws -> String {
-        guard var user = users.first(where: { $0.name == name }), user.verify(password: password) else {
-            throw XpenseServiceError.loginFailed
-        }
-        let token = user.createToken()
-        users.update(with: user)
-        userDidSet()
-        return token
+        var user = try await verifyCredentials(name, password: password)
+        return await createToken(for: &user)
     }
     
     /// Logout the current `User` that is signed in and remove all personal data of the `User` stored in this `Model`

@@ -22,6 +22,9 @@ let package = Package(
                 .product(name: "Apodini", package: "Apodini"),
                 .product(name: "ApodiniREST", package: "Apodini"),
                 .product(name: "ApodiniOpenAPI", package: "Apodini"),
+                .product(name: "ApodiniAuthorization", package: "Apodini"),
+                .product(name: "ApodiniAuthorizationBasicScheme", package: "Apodini"),
+                .product(name: "ApodiniAuthorizationBearerScheme", package: "Apodini"),
                 .product(name: "XpenseModel", package: "Shared")
             ]
         )

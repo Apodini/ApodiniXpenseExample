@@ -7,19 +7,7 @@
 //
 
 import Apodini
-import ApodiniHTTPProtocol
 import XpenseModel
-
-
-extension Model {
-    func user(fromConnection connection: Connection) -> User? {
-        guard let token = connection.information[Authorization.self]?.bearerToken else {
-            return nil
-        }
-        
-        return user(forToken: token)
-    }
-}
 
 extension Application {
     /// Holds the `Model` of the web service.

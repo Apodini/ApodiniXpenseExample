@@ -6,16 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-import Apodini
+import XpenseModel
+import ApodiniAuthorization
 
-
-struct UserComponent: Component {
-    var content: some Component {
-        Group("users") {
-            CreateUser()
-        }
-        Group("login") {
-            Login()
-        }
-    }
-}
+extension User: Authenticatable {}

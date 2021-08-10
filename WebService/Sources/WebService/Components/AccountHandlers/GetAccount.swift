@@ -7,24 +7,22 @@
 //
 
 import Apodini
+import ApodiniAuthorization
 import Foundation
 import XpenseModel
 
 
 struct GetAccount: Handler {
     @Environment(\.xpenseModel) var xpenseModel
-    @Environment(\.connection) var connection
     
     @Binding var id: UUID
     
-    @Throws(.unauthenticated, reason: "The User is not Authenticated correctly") var userNotFound: ApodiniError
     @Throws(.notFound, reason: "The Account could not be found") var notFound: ApodiniError
     
+    var user = Authorized<User>()
     
     func handle() throws -> Account {
-        guard let user = xpenseModel.user(fromConnection: connection) else {
-            throw userNotFound
-        }
+        let user = try user()
         
         guard let account = xpenseModel.account(id), account.userID == user.id else {
             throw notFound

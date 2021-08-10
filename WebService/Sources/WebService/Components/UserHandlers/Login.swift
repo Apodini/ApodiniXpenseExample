@@ -7,27 +7,27 @@
 //
 
 import Apodini
-import ApodiniHTTPProtocol
 import Foundation
+import ApodiniAuthorization
+import ApodiniAuthorizationBasicScheme
+import XpenseModel
 
 
 struct Login: Handler {
     @Environment(\.xpenseModel) var xpenseModel
-    @Environment(\.connection) var connection
     
-    @Throws(.badInput, reason: "The Authentication is no correct basic authentication header") var tokenError: ApodiniError
-    @Throws(.unauthenticated, reason: "The credentials provided are not correct") var unauthenticatedError: ApodiniError
-    
+    var user = Authorized<User>()
     
     func handle() async throws -> String {
-        guard let (username, password) = connection.information[Authorization.self]?.basic else {
-            throw tokenError
-        }
+        var user = try user()
+        let token = await xpenseModel.createToken(for: &user)
         
-        do {
-            return try await xpenseModel.login(username, password: password)
-        } catch {
-            throw unauthenticatedError
-        }
+        return token
+    }
+    
+    var metadata: Metadata {
+        Operation(.create)
+        
+        Authorize(User.self, using: BasicAuthenticationScheme(), verifiedBy: UserCredentialsVerifier())
     }
 }

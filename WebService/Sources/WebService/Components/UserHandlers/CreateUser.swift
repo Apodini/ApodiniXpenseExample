@@ -31,4 +31,8 @@ struct CreateUser: Handler {
             throw userAlreadyExists
         }
     }
+    
+    var metadata: Metadata {
+        Operation(.create)
+    }
 }

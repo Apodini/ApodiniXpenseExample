@@ -8,24 +8,19 @@
 
 import Apodini
 import Foundation
-import XpenseModel
-
 
 struct AccountComponent: Component {
     @PathParameter var accountId: UUID
-    
-    
+
     var content: some Component {
         Group("accounts") {
             GetAllAccounts()
             CreateAccount()
-                .operation(.create)
+
             Group($accountId) {
                 GetAccount(id: $accountId)
                 UpdateAccount(id: $accountId)
-                    .operation(.update)
                 DeleteAccount(id: $accountId)
-                    .operation(.delete)
             }
         }
     }

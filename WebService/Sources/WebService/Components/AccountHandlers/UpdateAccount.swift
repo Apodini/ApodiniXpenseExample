@@ -7,6 +7,7 @@
 //
 
 import Apodini
+import ApodiniAuthorization
 import Foundation
 import XpenseModel
 
@@ -18,25 +19,26 @@ struct UpdateAccount: Handler {
     
     
     @Environment(\.xpenseModel) var xpenseModel
-    @Environment(\.connection) var connection
     
     @Binding var id: UUID
     
     @Parameter(.http(.body)) var updatedAccount: UpdateAccountMediator
     
-    @Throws(.unauthenticated, reason: "The User is not Authenticated correctly") var userNotFound: ApodiniError
     @Throws(.notFound, reason: "The Account could not be found") var notFound: ApodiniError
     
+    var user = Authorized<User>()
     
     func handle() async throws -> Account {
-        guard let user = xpenseModel.user(fromConnection: connection) else {
-            throw userNotFound
-        }
+        let user = try user()
         
         guard xpenseModel.account(id)?.userID == user.id else {
             throw notFound
         }
         
         return try await xpenseModel.save(Account(id: id, name: updatedAccount.name, userID: user.id))
+    }
+    
+    var metadata: Metadata {
+        Operation(.update)
     }
 }
