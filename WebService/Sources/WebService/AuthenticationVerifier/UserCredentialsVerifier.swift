@@ -26,4 +26,3 @@ struct UserCredentialsVerifier: AuthenticationVerifier {
         }
     }
 }
-
