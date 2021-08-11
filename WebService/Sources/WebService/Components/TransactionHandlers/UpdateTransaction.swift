@@ -31,7 +31,7 @@ struct UpdateTransaction: Handler {
     @Throws(.notFound, reason: "The Account could not be found") var accountNotFound: ApodiniError
     @Throws(.notFound, reason: "The Transaction could not be found") var transactionNotFound: ApodiniError
     
-    var user = Authorized<User>()
+    @Authorized(User.self) var user
     
     func handle() async throws -> Transaction {
         let user = try user()

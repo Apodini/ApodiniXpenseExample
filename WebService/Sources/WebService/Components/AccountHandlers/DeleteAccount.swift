@@ -19,7 +19,7 @@ struct DeleteAccount: Handler {
     
     @Throws(.notFound, reason: "The Account could not be found") var notFound: ApodiniError
     
-    var user = Authorized<User>()
+    @Authorized(User.self) var user
     
     func handle() async throws -> Status {
         let user = try user()

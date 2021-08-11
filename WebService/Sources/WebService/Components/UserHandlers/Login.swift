@@ -16,7 +16,7 @@ import XpenseModel
 struct Login: Handler {
     @Environment(\.xpenseModel) var xpenseModel
     
-    var user = Authorized<User>()
+    @Authorized(User.self) var user
     
     func handle() async throws -> String {
         var user = try user()

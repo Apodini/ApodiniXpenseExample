@@ -21,7 +21,7 @@ struct CreateAccount: Handler {
     
     @Parameter(.http(.body)) var account: CreateAccountMediator
     
-    var user = Authorized<User>()
+    @Authorized(User.self) var user
     
     func handle() async throws -> Account {
         let user = try user()

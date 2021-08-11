@@ -13,8 +13,8 @@ import XpenseModel
 
 struct GetAllAccounts: Handler {
     @Environment(\.xpenseModel) var xpenseModel
-    
-    var user = Authorized<User>()
+
+    @Authorized(User.self) var user
     
     func handle() throws -> [Account] {
         let user = try user()

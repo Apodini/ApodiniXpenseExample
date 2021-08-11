@@ -19,7 +19,7 @@ struct GetTransaction: Handler {
     
     @Throws(.notFound, reason: "The Transaction could not be found") var transactionNotFound: ApodiniError
     
-    var user = Authorized<User>()
+    @Authorized(User.self) var user
     
     func handle() throws -> Transaction {
         let user = try user()
