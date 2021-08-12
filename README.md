@@ -12,7 +12,7 @@ To start and test the web service, you can run the `$ docker compose up` command
 
 Xcode 13 (only available on macOS) is required to build and run the example client application. Follow the instructions on https://developer.apple.com/xcode/ to install the latest version of Xcode.
 
-1. Opening the *Xoense.xcworkspace*. The workspace bundles the web services and the client application.
+1. Opening the *Xpense.xcworkspace*. The workspace bundles the web services and the client application.
 2. Select the *WebService* target, and then the *Xpense* target and start the web service as well as the app by following the instructions on [Running Your App in the Simulator or on a Device](https://developer.apple.com/documentation/xcode/running-your-app-in-the-simulator-or-on-a-device)
 
 ## System Functionality

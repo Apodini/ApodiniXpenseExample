@@ -13,18 +13,15 @@ import Foundation
 struct TransactionComponent: Component {
     @PathParameter var transactionId: UUID
     
-    
     var content: some Component {
         Group("transactions") {
             CreateTransaction()
-                .operation(.create)
             GetAllTransactions()
+            
             Group($transactionId) {
                 GetTransaction(transactionId: $transactionId)
                 UpdateTransaction(transactionId: $transactionId)
-                    .operation(.update)
                 DeleteTransaction(transactionId: $transactionId)
-                    .operation(.delete)
             }
         }
     }

@@ -7,24 +7,22 @@
 //
 
 import Apodini
+import ApodiniAuthorization
 import XpenseModel
 import Foundation
 
 
 struct GetTransaction: Handler {
     @Environment(\.xpenseModel) var xpenseModel
-    @Environment(\.connection) var connection
     
     @Binding var transactionId: UUID
     
-    @Throws(.unauthenticated, reason: "The User is not Authenticated correctly") var userNotFound: ApodiniError
     @Throws(.notFound, reason: "The Transaction could not be found") var transactionNotFound: ApodiniError
     
+    @Authorized(User.self) var user
     
     func handle() throws -> Transaction {
-        guard let user = xpenseModel.user(fromConnection: connection) else {
-            throw userNotFound
-        }
+        let user = try user()
         
         guard let transaction = xpenseModel.transaction(transactionId),
               let account = xpenseModel.account(transaction.account),

@@ -9,6 +9,8 @@
 import Apodini
 import ApodiniREST
 import ApodiniOpenAPI
+import ApodiniAuthorization
+import ApodiniAuthorizationBearerScheme
 import ArgumentParser
 import XpenseModel
 
@@ -24,8 +26,13 @@ struct XpenseWebService: WebService {
     
     
     var content: some Component {
-        AccountComponent()
-        TransactionComponent()
+        Group { // group of access restricted endpoints.
+            AccountComponent()
+            TransactionComponent()
+        }.metadata {
+            Authorize(User.self, using: BearerAuthenticationScheme(), verifiedBy: UserTokenVerifier())
+        }
+
         UserComponent()
     }
     

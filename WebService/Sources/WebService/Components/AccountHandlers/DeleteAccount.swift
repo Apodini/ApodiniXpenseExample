@@ -7,24 +7,22 @@
 //
 
 import Apodini
+import ApodiniAuthorization
 import Foundation
 import XpenseModel
 
 
 struct DeleteAccount: Handler {
     @Environment(\.xpenseModel) var xpenseModel
-    @Environment(\.connection) var connection
     
     @Binding var id: UUID
     
-    @Throws(.unauthenticated, reason: "The User is not Authenticated correctly") var userNotFound: ApodiniError
     @Throws(.notFound, reason: "The Account could not be found") var notFound: ApodiniError
     
+    @Authorized(User.self) var user
     
     func handle() async throws -> Status {
-        guard let user = xpenseModel.user(fromConnection: connection) else {
-            throw userNotFound
-        }
+        let user = try user()
         
         guard let account = xpenseModel.account(id),
               account.userID == user.id else {
@@ -34,5 +32,9 @@ struct DeleteAccount: Handler {
         try await xpenseModel.delete(account: id)
         
         return .noContent
+    }
+    
+    var metadata: Metadata {
+        Operation(.delete)
     }
 }

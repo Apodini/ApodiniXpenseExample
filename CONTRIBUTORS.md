@@ -6,3 +6,4 @@ Apodini Xpense Example contributors
 * [Lara Marie Reimer](...)
 * [Dominic Henze](...)
 * [Florian Bodlée](...)
+* [Andreas Bauer](https://github.com/Supereg)
