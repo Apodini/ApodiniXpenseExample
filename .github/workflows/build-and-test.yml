@@ -23,6 +23,22 @@ jobs:
       run: swift --version
     - name: Build and test
       run: xcodebuild test -scheme Xpense -destination 'platform=iOS Simulator,OS=15.0,name=iPhone 12'
+  linuxarmwebservices:
+    name: Linux ARM WebService
+    runs-on: ARM64
+    container:
+      image: ghcr.io/apodini/swift:nightly
+    defaults:
+      run:
+        working-directory: ./WebService
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install libsqlite3
+      run: apt-get update && apt-get install -y --no-install-recommends libsqlite3-dev
+    - name: Check Swift version
+      run: swift --version
+    - name: Build and test
+      run: swift build -Xswiftc -Xfrontend -Xswiftc -sil-verify-non
   linuxwebservices:
     name: Linux WebService ${{ matrix.linux }}
     runs-on: ubuntu-latest

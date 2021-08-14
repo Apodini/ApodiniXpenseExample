@@ -8,7 +8,7 @@ on:
 jobs:
   docker:
     name: Docker Build and Push Image
-    runs-on: ubuntu-latest
+    runs-on: ARM64
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -36,6 +36,6 @@ jobs:
           context: .
           file: ./WebService/Dockerfile
           push: true
-          tags: ghcr.io/apodini/xpensewebservice:latest,ghcr.io/apodini/xpensewebservice:${{ steps.latesttag.outputs.tag }}
+          tags: ghcr.io/fa21-collaborative-drone-interactions/xpensewebservice:latest,ghcr.io/fa21-collaborative-drone-interactions/xpensewebservice:${{ steps.latesttag.outputs.tag }}
       - name: Image digest
         run: echo ${{ steps.buildandpush.outputs.digest }}
