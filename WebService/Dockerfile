@@ -1,7 +1,7 @@
 # ================================
 # Build image
 # ================================
-FROM ghcr.io/apodini/swift:nightly as build
+FROM swiftlang/swift:nightly-5.5-focal as build
 
 # Install OS updates and, if needed, sqlite3
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
@@ -39,7 +39,7 @@ RUN [ -d "$(swift build --package-path /build/WebService -c release --show-bin-p
 # ================================
 # Run image
 # ================================
-FROM ghcr.io/apodini/swift:nightly as run
+FROM swiftlang/swift:nightly-5.5-focal-slim as run
 
 # Make sure all system packages are up to date.
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
