@@ -1,7 +1,7 @@
 # ================================
 # Build image
 # ================================
-FROM swiftlang/swift:nightly-5.5-focal as build
+FROM ghcr.io/apodini/swift:nightly as build
 
 # Install OS updates and, if needed, sqlite3
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
@@ -36,13 +36,10 @@ RUN [ -d "$(swift build --package-path /build/WebService -c release --show-bin-p
     && chmod -R a-w ./WebService_WebService.resources \
     || echo No resources to copy
 
-# Create a database directory
-RUN mkdir database
-
 # ================================
 # Run image
 # ================================
-FROM swiftlang/swift:nightly-5.5-focal-slim as run
+FROM ghcr.io/apodini/swift:nightly as run
 
 # Make sure all system packages are up to date.
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
@@ -59,12 +56,9 @@ WORKDIR /app
 # Copy built executable and any staged resources from builder
 COPY --from=build --chown=apodini:apodini /staging /app
 
-RUN chown apodini: ./database \
-    && chmod u+w ./database
-
 # Ensure all further commands run as the apodini user
 USER apodini:apodini
 
 # Start the Apodini service when the image is run.
-# The default port is 8080. Can be adapted using the `--port` argument
+# The default port is 80. Can be adapted using the `--port` argument
 ENTRYPOINT ["./WebService"]

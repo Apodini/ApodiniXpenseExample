@@ -10,13 +10,8 @@ services:
       dockerfile: ./WebService/Dockerfile
     expose:
       - "80"
-    volumes:
-      # Use the volume defined below to save the database file in a persistent volume to preserve it across deployments
-      - type: volume
-        source: database
-        target: /app/database/
     # Pass the desired port and the path to the mounted database volume to the Apodini web service
-    command: ["--port", "80", "--database-path", "/app/database/xpense.sqlite"]
+    command: ["--port", "80"]
     labels:
       # The domain the service will respond to
       - "traefik.http.routers.backend.rule=Host(`localhost`)"
@@ -49,7 +44,3 @@ services:
     # Traefik needs the docker.sock to detect new docker container
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-
-volumes:
-  # A volume used to host the database file from the Xpense Web Service
-  database:
