@@ -38,7 +38,7 @@ jobs:
     - name: Check Swift version
       run: swift --version
     - name: Build and test
-      run: swift build -Xswiftc -Xfrontend -Xswiftc -sil-verify-non
+      run: swift build
   linuxwebservices:
     name: Linux WebService ${{ matrix.linux }}
     runs-on: ubuntu-latest
