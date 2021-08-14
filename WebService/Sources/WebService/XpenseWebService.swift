@@ -8,7 +8,6 @@
 
 import Apodini
 import ApodiniREST
-import ApodiniOpenAPI
 import ApodiniAuthorization
 import ApodiniAuthorizationBearerScheme
 import ArgumentParser
@@ -38,9 +37,7 @@ struct XpenseWebService: WebService {
     
     var configuration: Configuration {
         HTTPConfiguration(port: port)
-        REST {
-            OpenAPI()
-        }
+        REST()
         EnvironmentValue(LocalStorageModel(reset: reset), \Application.xpenseModel)
     }
 }

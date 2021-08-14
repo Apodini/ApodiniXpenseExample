@@ -17,7 +17,7 @@ WORKDIR /build
 COPY . .
 
 # Build everything, with optimizations
-RUN swift build -Xswiftc -Xfrontend -Xswiftc -sil-verify-none -c release --package-path ./WebService
+RUN swift build -c release --package-path ./WebService
 
 # Switch to the staging area
 WORKDIR /staging
@@ -27,10 +27,6 @@ RUN cp "$(swift build --package-path /build/WebService -c release --show-bin-pat
 
 # Copy resources from the resources directory if the directories exist
 # Ensure that by default, neither the directory nor any of its contents are writable.
-RUN [ -d "$(swift build --package-path /build/WebService -c release --show-bin-path)/Apodini_ApodiniOpenAPI.resources" ] \
-    && mv "$(swift build --package-path /build/WebService -c release --show-bin-path)/Apodini_ApodiniOpenAPI.resources" ./ \
-    && chmod -R a-w ./Apodini_ApodiniOpenAPI.resources \
-    || echo No resources to copy
 RUN [ -d "$(swift build --package-path /build/WebService -c release --show-bin-path)/WebService_WebService.resources" ] \
     && mv "$(swift build --package-path /build/WebService -c release --show-bin-path)/WebService_WebService.resources" ./ \
     && chmod -R a-w ./WebService_WebService.resources \
