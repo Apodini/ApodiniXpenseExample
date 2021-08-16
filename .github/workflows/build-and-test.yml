@@ -24,7 +24,7 @@ jobs:
     - name: Build and test
       run: xcodebuild test -scheme Xpense -destination 'platform=iOS Simulator,OS=15.0,name=iPhone 12'
   linuxarmwebservices:
-    name: Docker Build and Push Image
+    name: Linux ARM WebService
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
