@@ -1,3 +1,11 @@
+#                   
+# This source file is part of the Apodini Xpense Example open source project
+# 
+# SPDX-FileCopyrightText: 2018-2021 Paul Schmiedmayer and project authors (see CONTRIBUTORS.md) <paul.schmiedmayer@tum.de>
+# 
+# SPDX-License-Identifier: MIT
+# 
+
 name: Build Docker Compose
 
 on:
@@ -20,10 +28,7 @@ jobs:
       - name: Test web service
         run: |
           sleep 3
-          curl --header "Content-Type: application/json" \
-               --request POST \
-               --data '{"name": "Paul", "password": "SuperSecretPassword"}' \
-               http://localhost/v1/users
+          curl --fail http://localhost/v1/
       - name: Stop containers
         if: always()
         run: docker-compose down

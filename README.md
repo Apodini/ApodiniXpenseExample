@@ -1,3 +1,13 @@
+<!--
+
+This source file is part of the Apodini Xpense Example open source project
+
+SPDX-FileCopyrightText: 2018-2021 Paul Schmiedmayer and project authors (see CONTRIBUTORS.md) <paul.schmiedmayer@tum.de>
+
+SPDX-License-Identifier: MIT
+
+-->
+
 # Apodini Xpense Example
 
 [![Build and Test](https://github.com/Apodini/ApodiniXpenseExample/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/Apodini/ApodiniXpenseExample/actions/workflows/build-and-test.yml)

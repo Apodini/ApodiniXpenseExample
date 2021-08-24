@@ -1,3 +1,11 @@
+#                   
+# This source file is part of the Apodini Xpense Example open source project
+# 
+# SPDX-FileCopyrightText: 2018-2021 Paul Schmiedmayer and project authors (see CONTRIBUTORS.md) <paul.schmiedmayer@tum.de>
+# 
+# SPDX-License-Identifier: MIT
+# 
+
 name: Build Docker Image
 
 on:
@@ -34,8 +42,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./WebService/Dockerfile
+          file: ./Dockerfile
           push: true
-          tags: ghcr.io/apodini/xpensewebservice:latest,ghcr.io/apodini/xpensewebservice:${{ steps.latesttag.outputs.tag }}
+          tags: ghcr.io/apodini/template:latest,ghcr.io/apodini/template:${{ steps.latesttag.outputs.tag }}
       - name: Image digest
         run: echo ${{ steps.buildandpush.outputs.digest }}

@@ -1,5 +1,13 @@
 // swift-tools-version:5.5
 
+//
+// This source file is part of the Apodini Xpense Example open source project
+//
+// SPDX-FileCopyrightText: 2018-2021 Paul Schmiedmayer and project authors (see CONTRIBUTORS.md) <paul.schmiedmayer@tum.de>
+//
+// SPDX-License-Identifier: MIT
+//
+
 import PackageDescription
 
 
@@ -12,7 +20,7 @@ let package = Package(
         .executable(name: "WebService", targets: ["WebService"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Apodini/Apodini.git", .revision("d68e398166acc43308fecd5ed0529a7bca66dc9e")),
+        .package(url: "https://github.com/Apodini/Apodini.git", .upToNextMinor(from: "0.5.0")),
         .package(name: "Shared", path: "../Shared")
     ],
     targets: [
