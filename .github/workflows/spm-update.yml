@@ -23,8 +23,14 @@ jobs:
     - uses: actions/checkout@v2
     - name: Check Swift version
       run: swift --version
-    - name: Update Swift Packages
-      run: swift package update
+    - name: Update Swift Packages Gateway
+      run: cd ./Shared && swift package update
+    - name: Update Swift Packages Database
+      run: cd ./WebService && swift package update
+    - name: Update Swift Packages Xcode Projekt
+      run: |
+        rm -f Xpense.xcworkspace/xcshareddata/swiftpm/Package.resolved
+        xcodebuild -resolvePackageDependencies
     - uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ secrets.ACCESS_TOKEN }}

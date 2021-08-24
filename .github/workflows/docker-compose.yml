@@ -28,7 +28,10 @@ jobs:
       - name: Test web service
         run: |
           sleep 3
-          curl --fail http://localhost/v1/
+          curl --header "Content-Type: application/json" \
+               --request POST \
+               --data '{"name": "Paul", "password": "SuperSecretPassword"}' \
+               http://localhost/v1/users
       - name: Stop containers
         if: always()
         run: docker-compose down
