@@ -1,3 +1,11 @@
+#                   
+# This source file is part of the Apodini Template open source project
+# 
+# SPDX-FileCopyrightText: 2018-2021 Paul Schmiedmayer and project authors (see CONTRIBUTORS.md) <paul.schmiedmayer@tum.de>
+# 
+# SPDX-License-Identifier: MIT
+# 
+
 # For more information about the Scanfile, see:
 #     https://docs.fastlane.tools/actions/run_tests/#scanfile
 

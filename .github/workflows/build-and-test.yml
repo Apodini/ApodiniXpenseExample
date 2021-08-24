@@ -1,3 +1,11 @@
+#                   
+# This source file is part of the Apodini Xpense Example open source project
+# 
+# SPDX-FileCopyrightText: 2018-2021 Paul Schmiedmayer and project authors (see CONTRIBUTORS.md) <paul.schmiedmayer@tum.de>
+# 
+# SPDX-License-Identifier: MIT
+# 
+
 name: Build and Test
 
 on:
@@ -7,6 +15,7 @@ on:
   pull_request:
     branches:
       - develop
+  workflow_dispatch:
 
 jobs:
   macosclient:
@@ -23,17 +32,48 @@ jobs:
       run: swift --version
     - name: Build and test
       run: xcodebuild test -scheme Xpense -destination 'platform=iOS Simulator,OS=15.0,name=iPhone 12'
-  linuxwebservices:
-    name: Linux WebService ${{ matrix.linux }}
-    runs-on: ubuntu-latest
-    container:
-      image: swiftlang/swift:nightly-5.5-${{ matrix.linux }}
-    strategy:
-      matrix:
-        linux: [bionic, focal, amazonlinux2, centos8]
+  macoswebservice:
+    name: macOS Web Service ${{ matrix.configuration }}
+    runs-on: macos-11
     defaults:
       run:
         working-directory: ./WebService
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [debug, release]
+    steps:
+    - uses: actions/checkout@v2
+    - uses: maxim-lobanov/setup-xcode@v1.2.3
+      with:
+        xcode-version: latest
+    - uses: actions/cache@v2
+      with:
+        path: .build
+        key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+    - name: Check Xcode version
+      run: xcodebuild -version
+    - name: Check Swift version
+      run: swift --version
+    - name: Release Build
+      if: matrix.configuration == 'release'
+      run: swift build -c release
+    - name: Debug Build
+      if: matrix.configuration == 'debug'
+      run: swift build -c debug
+  linuxwebservice:
+    name: Linux Web Service ${{ matrix.linux }} ${{ matrix.configuration }}
+    container:
+      image: swiftlang/swift:nightly-5.5-${{ matrix.linux }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./WebService
+    strategy:
+      fail-fast: false
+      matrix:
+        linux: [bionic, focal, amazonlinux2, centos8]
+        configuration: [debug, release]
     steps:
     - uses: actions/checkout@v2
     - name: Install libsqlite3
@@ -45,7 +85,15 @@ jobs:
     - name: Install libsqlite3
       if: startsWith( matrix.linux, 'centos' )
       run: yum update -y --nobest && yum install -y sqlite-devel
+    - uses: actions/cache@v2
+      with:
+        path: .build
+        key: ${{ runner.os }}-${{matrix.linux}}-spm-${{ hashFiles('Package.resolved') }}
     - name: Check Swift version
       run: swift --version
-    - name: Build and test
-      run: swift build -Xswiftc -Xfrontend -Xswiftc -sil-verify-none
+    - name: Release Build
+      if: matrix.configuration == 'release'
+      run: swift build -c release
+    - name: Debug Build & Test
+      if: matrix.configuration == 'debug'
+      run: swift build -c debug
