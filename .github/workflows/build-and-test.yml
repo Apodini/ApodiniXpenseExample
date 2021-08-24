@@ -73,7 +73,7 @@ jobs:
       fail-fast: false
       matrix:
         linux: [bionic, focal, amazonlinux2, centos8]
-        configuration: [debug, release, release_testing]
+        configuration: [debug, release]
     steps:
     - uses: actions/checkout@v2
     - name: Install libsqlite3
@@ -94,9 +94,6 @@ jobs:
     - name: Release Build
       if: matrix.configuration == 'release'
       run: swift build -c release
-    - name: Release Build & Test
-      if: matrix.configuration == 'release_testing'
-      run: swift test -c release -Xswiftc -enable-testing
     - name: Debug Build & Test
       if: matrix.configuration == 'debug'
-      run: swift test -c debug
+      run: swift build -c debug
