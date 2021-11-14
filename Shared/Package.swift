@@ -23,8 +23,8 @@ let package = Package(
         .library(name: "RESTfulXpenseModel", targets: ["RESTfulXpenseModel"])
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.4"),
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "1.1.6")
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
+        .package(url: "https://github.com/apple/swift-crypto.git", "1.0.0" ..< "3.0.0")
     ],
     targets: [
         .executableTarget(
