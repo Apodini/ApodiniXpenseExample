@@ -107,7 +107,7 @@ class LoginViewModel: ObservableObject {
                 try await model?.signUp(username, password: password)
             }
             
-            DispatchQueue.main.async {
+            Task(priority: .userInitiated) {
                 self.loadingInProcess = false
             }
         }

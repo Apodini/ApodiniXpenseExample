@@ -47,7 +47,7 @@ struct SaveButton<M: SaveButtonViewModel>: View {
         Task {
             try await viewModel.save()
             
-            DispatchQueue.main.async {
+            Task(priority: .userInitiated) {
                 onSuccess?()
             }
         }

@@ -19,19 +19,25 @@ open class Model {
     /// The `Account`s of the Xpense App
     public var accounts: Set<Account> {
         didSet {
-            accountsDidSet()
+            Task {
+                await accountsDidSet()
+            }
         }
     }
     /// The `Transaction`s of the Xpense App
     public var transactions: Set<Transaction> {
         didSet {
-            transactionsDidSet()
+            Task {
+                await transactionsDidSet()
+            }
         }
     }
     /// A `XpenseServiceError` that should be displayed to the user in case of an error in relation with the Xpense Web Service
     public var webServiceError: XpenseServiceError? {
         didSet {
-            webServiceErrorDidSet()
+            Task {
+                await webServiceErrorDidSet()
+            }
         }
     }
     
@@ -53,46 +59,42 @@ open class Model {
     }
     
     
-    #if canImport(Combine)
+    #if canImport(Combine) && canImport(UIKit)
     /// Called when a new `User` was set to the `user` property, calls the `ObservableObject` `objectWillChange` Publisher
-    open func userDidSet() {
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-        }
+    @MainActor
+    open func userDidSet() async {
+        self.objectWillChange.send()
     }
     
     /// Called when a new `Account` was set to the `accounts` property, calls the `ObservableObject` `objectWillChange` Publisher
-    open func accountsDidSet() {
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-        }
+    @MainActor
+    open func accountsDidSet() async {
+        self.objectWillChange.send()
     }
     
     /// Called when a new `Transaction` was set to the `transactions` property, calls the `ObservableObject` `objectWillChange` Publisher
-    open func transactionsDidSet() {
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-        }
+    @MainActor
+    open func transactionsDidSet() async {
+        self.objectWillChange.send()
     }
     
     /// Called when a new `XpenseServiceError` was set to the `webServiceError` property, calls the `ObservableObject` `objectWillChange` Publisher
-    open func webServiceErrorDidSet() {
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-        }
+    @MainActor
+    open func webServiceErrorDidSet() async {
+        self.objectWillChange.send()
     }
     #else
     /// Called when a new `User` was set to the `user` property
-    open func userDidSet() {}
+    open func userDidSet() async {}
     
     /// Called when a new `Account` was set to the `accounts` property
-    open func accountsDidSet() {}
+    open func accountsDidSet() async {}
     
     /// Called when a new `Transaction` was set to the `transactions` property
-    open func transactionsDidSet() {}
+    open func transactionsDidSet() async {}
     
     /// Called when a new `XpenseServiceError` was set to the `webServiceError` property
-    open func webServiceErrorDidSet() {}
+    open func webServiceErrorDidSet() async {}
     #endif
     
     /// Get an `Account` for a specific ID
@@ -192,7 +194,7 @@ open class Model {
     open func signUp(_ name: String, password: String) async throws -> User {
         let user = User(name: name, password: password)
         users.update(with: user)
-        userDidSet()
+        await userDidSet()
         return user
     }
 
@@ -214,7 +216,7 @@ open class Model {
     open func createToken(for user: inout User) async -> String {
         let token = user.createToken()
         users.update(with: user)
-        userDidSet()
+        await userDidSet()
         return token
     }
     
@@ -242,6 +244,6 @@ open class Model {
     }
 }
 
-#if canImport(Combine)
+#if canImport(Combine) && canImport(UIKit)
 extension Model: ObservableObject {}
 #endif

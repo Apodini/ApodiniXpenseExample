@@ -57,7 +57,13 @@ class EditTransactionViewModel: ObservableObject {
     }
     
     
+    @MainActor
+    private func showSaveProgressView(_ showSaveProgressView: Bool) {
+        self.showSaveProgressView = showSaveProgressView
+    }
+    
     /// Updates the `EditTransaction`'s state like the name based on the `id`
+    @MainActor
     func updateStates() {
         guard let transaction = model?.transaction(id), !loaded else {
             return
@@ -92,12 +98,12 @@ class EditTransactionViewModel: ObservableObject {
                                       location: Coordinate(location),
                                       account: selectedAccount)
         
-        self.showSaveProgressView = true
+        await showSaveProgressView(true)
         
         try await model.save(transaction)
         
-        self.updateStates()
-        self.showSaveProgressView = false
+        await self.updateStates()
+        await showSaveProgressView(false)
     }
 }
 
