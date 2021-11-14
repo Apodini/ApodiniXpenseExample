@@ -30,8 +30,8 @@ public class RestfulModel: LocalStorageModel {
         }
     }
     
-    override public func userDidSet() {
-        super.userDidSet()
+    override public func userDidSet() async {
+        await super.userDidSet()
         
         guard let token = user?.bearerToken else {
             return

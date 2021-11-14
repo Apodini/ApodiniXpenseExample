@@ -59,46 +59,42 @@ open class Model {
     }
     
     
-    #if canImport(Combine)
+    #if canImport(Combine) && canImport(UIKit)
     /// Called when a new `User` was set to the `user` property, calls the `ObservableObject` `objectWillChange` Publisher
     @MainActor
-    open func userDidSet() {
+    open func userDidSet() async {
         self.objectWillChange.send()
     }
     
     /// Called when a new `Account` was set to the `accounts` property, calls the `ObservableObject` `objectWillChange` Publisher
     @MainActor
-    open func accountsDidSet() {
+    open func accountsDidSet() async {
         self.objectWillChange.send()
     }
     
     /// Called when a new `Transaction` was set to the `transactions` property, calls the `ObservableObject` `objectWillChange` Publisher
     @MainActor
-    open func transactionsDidSet() {
+    open func transactionsDidSet() async {
         self.objectWillChange.send()
     }
     
     /// Called when a new `XpenseServiceError` was set to the `webServiceError` property, calls the `ObservableObject` `objectWillChange` Publisher
     @MainActor
-    open func webServiceErrorDidSet() {
+    open func webServiceErrorDidSet() async {
         self.objectWillChange.send()
     }
     #else
     /// Called when a new `User` was set to the `user` property
-    @MainActor
-    open func userDidSet() {}
+    open func userDidSet() async {}
     
     /// Called when a new `Account` was set to the `accounts` property
-    @MainActor
-    open func accountsDidSet() {}
+    open func accountsDidSet() async {}
     
     /// Called when a new `Transaction` was set to the `transactions` property
-    @MainActor
-    open func transactionsDidSet() {}
+    open func transactionsDidSet() async {}
     
     /// Called when a new `XpenseServiceError` was set to the `webServiceError` property
-    @MainActor
-    open func webServiceErrorDidSet() {}
+    open func webServiceErrorDidSet() async {}
     #endif
     
     /// Get an `Account` for a specific ID
@@ -248,6 +244,6 @@ open class Model {
     }
 }
 
-#if canImport(Combine)
+#if canImport(Combine) && canImport(UIKit)
 extension Model: ObservableObject {}
 #endif

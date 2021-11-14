@@ -38,18 +38,18 @@ open class LocalStorageModel: Model {
     }
     
     
-    override open func accountsDidSet() {
-        super.accountsDidSet()
+    override open func accountsDidSet() async {
+        await super.accountsDidSet()
         accounts.saveToFile()
     }
     
-    override open func transactionsDidSet() {
-        super.transactionsDidSet()
+    override open func transactionsDidSet() async {
+        await super.transactionsDidSet()
         transactions.saveToFile()
     }
     
-    override open func userDidSet() {
-        super.userDidSet()
+    override open func userDidSet() async {
+        await super.userDidSet()
         users.saveToFile()
     }
     
