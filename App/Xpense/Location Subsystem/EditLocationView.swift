@@ -42,14 +42,7 @@ struct EditLocationView: View {
                     }
                     .font(.largeTitle)
                     .foregroundColor(.red)
-            }
-                .navigationBarTitleDisplayMode(.inline)
-                .onAppear {
-                    if let coordinate = coordinate {
-                        coordinateRegion.center = coordinate
-                        coordinateRegion.span = LocationView.Defaults.span
-                    }
-                }
+            }.ignoresSafeArea(edges: .bottom)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Cancel") {
@@ -63,6 +56,13 @@ struct EditLocationView: View {
                         }
                     }
                 }
+                .onAppear {
+                    if let coordinate = coordinate {
+                        coordinateRegion.center = coordinate
+                        coordinateRegion.span = LocationView.Defaults.span
+                    }
+                }
+                .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

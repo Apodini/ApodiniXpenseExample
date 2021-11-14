@@ -25,7 +25,9 @@ public class RestfulModel: LocalStorageModel {
     /// Creates a new `RestfulModel` and loads the current `User`s, `Account`s and `Transaction`s
     public init() {
         super.init()
-        userDidSet()
+        Task {
+            await userDidSet()
+        }
     }
     
     override public func userDidSet() {
@@ -69,7 +71,7 @@ public class RestfulModel: LocalStorageModel {
     override public func signUp(_ name: String, password: String) async throws -> User {
         let user = try await sendSignUpRequest(name, password: password)
         users.update(with: user)
-        userDidSet()
+        await userDidSet()
         return user
     }
     
@@ -77,7 +79,7 @@ public class RestfulModel: LocalStorageModel {
     override public func login(_ name: String, password: String) async throws -> String {
         let user = try await sendLoginRequest(name, password: password)
         users.update(with: user)
-        userDidSet()
+        await userDidSet()
         
         guard let token = user.tokens.first else {
             throw XpenseServiceError.loginFailed

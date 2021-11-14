@@ -19,19 +19,25 @@ open class Model {
     /// The `Account`s of the Xpense App
     public var accounts: Set<Account> {
         didSet {
-            accountsDidSet()
+            Task {
+                await accountsDidSet()
+            }
         }
     }
     /// The `Transaction`s of the Xpense App
     public var transactions: Set<Transaction> {
         didSet {
-            transactionsDidSet()
+            Task {
+                await transactionsDidSet()
+            }
         }
     }
     /// A `XpenseServiceError` that should be displayed to the user in case of an error in relation with the Xpense Web Service
     public var webServiceError: XpenseServiceError? {
         didSet {
-            webServiceErrorDidSet()
+            Task {
+                await webServiceErrorDidSet()
+            }
         }
     }
     
@@ -55,43 +61,43 @@ open class Model {
     
     #if canImport(Combine)
     /// Called when a new `User` was set to the `user` property, calls the `ObservableObject` `objectWillChange` Publisher
+    @MainActor
     open func userDidSet() {
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-        }
+        self.objectWillChange.send()
     }
     
     /// Called when a new `Account` was set to the `accounts` property, calls the `ObservableObject` `objectWillChange` Publisher
+    @MainActor
     open func accountsDidSet() {
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-        }
+        self.objectWillChange.send()
     }
     
     /// Called when a new `Transaction` was set to the `transactions` property, calls the `ObservableObject` `objectWillChange` Publisher
+    @MainActor
     open func transactionsDidSet() {
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-        }
+        self.objectWillChange.send()
     }
     
     /// Called when a new `XpenseServiceError` was set to the `webServiceError` property, calls the `ObservableObject` `objectWillChange` Publisher
+    @MainActor
     open func webServiceErrorDidSet() {
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-        }
+        self.objectWillChange.send()
     }
     #else
     /// Called when a new `User` was set to the `user` property
+    @MainActor
     open func userDidSet() {}
     
     /// Called when a new `Account` was set to the `accounts` property
+    @MainActor
     open func accountsDidSet() {}
     
     /// Called when a new `Transaction` was set to the `transactions` property
+    @MainActor
     open func transactionsDidSet() {}
     
     /// Called when a new `XpenseServiceError` was set to the `webServiceError` property
+    @MainActor
     open func webServiceErrorDidSet() {}
     #endif
     
@@ -192,7 +198,7 @@ open class Model {
     open func signUp(_ name: String, password: String) async throws -> User {
         let user = User(name: name, password: password)
         users.update(with: user)
-        userDidSet()
+        await userDidSet()
         return user
     }
 
@@ -214,7 +220,7 @@ open class Model {
     open func createToken(for user: inout User) async -> String {
         let token = user.createToken()
         users.update(with: user)
-        userDidSet()
+        await userDidSet()
         return token
     }
     

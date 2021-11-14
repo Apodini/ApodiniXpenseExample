@@ -36,7 +36,11 @@ struct EditTransaction: View {
     var body: some View {
         NavigationView {
             self.form
-                .onAppear(perform: viewModel.updateStates)
+                .onAppear {
+                    Task {
+                        viewModel.updateStates()
+                    }
+                }
                 .navigationBarTitle(navigationTitle, displayMode: .inline)
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {

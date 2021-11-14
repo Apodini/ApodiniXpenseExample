@@ -31,7 +31,11 @@ struct EditAccount: View {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
-            }.onAppear(perform: viewModel.updateStates)
+            }.onAppear {
+                Task {
+                    viewModel.updateStates()
+                }
+            }
                 .navigationTitle(viewModel.id == nil ? "Add Account" : "Edit Account")
                 .toolbar {
                     SaveButton(viewModel: viewModel) {
@@ -93,7 +97,7 @@ private struct DeleteButton: View {
         Task {
             try await viewModel.delete()
             
-            DispatchQueue.main.async {
+            Task(priority: .userInitiated) {
                 onSuccess?()
             }
         }

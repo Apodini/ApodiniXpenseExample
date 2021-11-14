@@ -47,7 +47,13 @@ class EditAccountViewModel: ObservableObject {
     }
     
     
+    @MainActor
+    private func showDeleteProgressView(_ showDeleteProgressView: Bool) {
+        self.showDeleteProgressView = showDeleteProgressView
+    }
+    
     /// Updates the `EditViews`'s state like the name based on the `id`
+    @MainActor
     func updateStates() {
         guard let account = model?.account(id) else {
             self.name = ""
@@ -65,12 +71,12 @@ class EditAccountViewModel: ObservableObject {
         
         let account = Account(id: self.id, name: self.name, userID: userId)
         
-        self.showSaveProgressView = true
+        await showDeleteProgressView(true)
         
         try await model.save(account)
         
-        self.updateStates()
-        self.showSaveProgressView = false
+        await self.updateStates()
+        await showDeleteProgressView(false)
     }
     
     /// Deletes the `Account` that is currently edited
@@ -79,12 +85,12 @@ class EditAccountViewModel: ObservableObject {
             throw XpenseServiceError.deleteFailed(Account.self)
         }
         
-        self.showDeleteProgressView = true
+        await showDeleteProgressView(true)
         
         try await model.delete(account: id)
         
-        self.updateStates()
-        self.showDeleteProgressView = false
+        await self.updateStates()
+        await showDeleteProgressView(false)
     }
 }
 
