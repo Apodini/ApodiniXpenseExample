@@ -56,38 +56,38 @@ open class LocalStorageModel: Model {
     @discardableResult
     override open func save(_ account: Account) async throws -> Account {
         let newAccount = try await super.save(account)
-        await Task.sleep(250_000_000) // Delay for 0.25s
+        try await Task.sleep(nanoseconds: 250_000_000) // Delay for 0.25s
         return newAccount
     }
     
     @discardableResult
     override open func save(_ transaction: Transaction) async throws -> Transaction {
         let newTransaction = try await super.save(transaction)
-        await Task.sleep(250_000_000) // Delay for 0.25s
+        try await Task.sleep(nanoseconds: 250_000_000) // Delay for 0.25s
         return newTransaction
     }
     
     override open func delete(account id: Account.ID) async throws {
         try await super.delete(account: id)
-        await Task.sleep(250_000_000) // Delay for 0.25s
+        try await Task.sleep(nanoseconds: 250_000_000) // Delay for 0.25s
     }
     
     override open func delete(transaction id: Transaction.ID) async throws {
         try await super.delete(transaction: id)
-        await Task.sleep(250_000_000) // Delay for 0.25s
+        try await Task.sleep(nanoseconds: 250_000_000) // Delay for 0.25s
     }
     
     @discardableResult
     override open func signUp(_ name: String, password: String) async throws -> User {
         let user = try await super.signUp(name, password: password)
-        await Task.sleep(500_000_000) // Delay for 0.5s
+        try await Task.sleep(nanoseconds: 500_000_000) // Delay for 0.5s
         return user
     }
     
     @discardableResult
     override open func login(_ name: String, password: String) async throws -> String {
         let token = try await super.login(name, password: password)
-        await Task.sleep(500_000_000) // Delay for 0.5s
+        try await Task.sleep(nanoseconds: 500_000_000) // Delay for 0.5s
         return token
     }
     
