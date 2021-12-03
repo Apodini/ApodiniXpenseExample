@@ -37,7 +37,7 @@ struct XpenseWebService: WebService {
     }
     
     var configuration: Configuration {
-        HTTPConfiguration(port: port)
+        HTTPConfiguration(bindAddress: .interface(port: port))
         REST {
             OpenAPI()
         }
