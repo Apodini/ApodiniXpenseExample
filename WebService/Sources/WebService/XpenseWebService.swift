@@ -41,7 +41,7 @@ struct XpenseWebService: WebService {
     
     var configuration: Configuration {
         HTTPConfiguration(bindAddress: .interface(port: port))
-        REST(rootPath: .version) {
+        REST {
             OpenAPI()
         }
         EnvironmentValue(LocalStorageModel(reset: reset), \Application.xpenseModel)

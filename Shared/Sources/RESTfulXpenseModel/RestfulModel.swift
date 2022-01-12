@@ -15,7 +15,7 @@ import XpenseModel
 public class RestfulModel: LocalStorageModel {
     /// The base route that is used to access the RESTful web service
     static var baseURL: URL = {
-        guard let baseURL = URL(string: "http://localhost/v1/") else {
+        guard let baseURL = URL(string: "http://localhost/") else {
             fatalError("Coult not create the base URL for the Xpense Web Service")
         }
         return baseURL
