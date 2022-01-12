@@ -11,6 +11,9 @@ import ApodiniREST
 import ApodiniOpenAPI
 import ApodiniAuthorization
 import ApodiniAuthorizationBearerScheme
+import ApodiniDeploy
+import DeploymentTargetLocalhostRuntime
+import DeploymentTargetAWSLambdaRuntime
 import ArgumentParser
 import XpenseModel
 
@@ -38,9 +41,10 @@ struct XpenseWebService: WebService {
     
     var configuration: Configuration {
         HTTPConfiguration(bindAddress: .interface(port: port))
-        REST {
+        REST(rootPath: .version) {
             OpenAPI()
         }
         EnvironmentValue(LocalStorageModel(reset: reset), \Application.xpenseModel)
+        ApodiniDeploy(runtimes: [LocalhostRuntime<Self>.self, LambdaRuntime<Self>.self])
     }
 }

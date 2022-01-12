@@ -39,6 +39,44 @@ You can test out the API by starting up the web service using the `$ docker comp
 
 You can use the functionality of the web service using the bundled client application.
 
+## Apodini Deployer Functionality
+
+The system also demonstrates the usage of the Apodini Deployer functionality provided by the Apodini Deployer subsystem.
+The web service includes the support for the Localhost process-based and AWS FaaS-based Deployment Provider.
+You can use the following scripts to deploy the web service using the different Deployment Providers.
+
+### Localhost Deployment Provider
+
+```console
+$ git clone https://github.com/Apodini/Apodini.git
+$ cd Apodini
+$ git checkout 0.7.2
+$ swift run DeploymentTargetLocalhost ../WebService --product-name WebService
+```
+
+### AWS Lambda Deployment Provider
+
+You need to install Docker on your machine to run the AWS Deployment Provider: https://docs.docker.com/get-docker/
+The AWS Lambda Deployment providers needs valid AWS Credentials to deploy the web service to AWS Lambda functions.
+You can create a credentials file by following the AWS CLI Documentation at https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html.
+You have to create an S3 bucket that can be used to upload the AWS Lambda binaries.
+AWS Access Key ID and the AWS Secret Access Key need to have access to the S3 Bucket used to upload the compiled binary to, create an configure AWS Lambda functions, create and configure an AWS API Gateway, and configure IAM roles to set up the AWS Lambda deployment.
+
+```console
+$ git clone https://github.com/Apodini/Apodini.git
+$ cd Apodini
+$ git checkout 0.7.2
+$ swift run DeploymentTargetAWSLambda deploy ../WebService --product-name WebService --s3-bucket-name apodinixpenseexample --aws-api-gateway-api-id _createNew
+notice de.lukaskollmer.ApodiniLambda.AWSIntegration : Deployed 12 lambdas to api gateway w/ id 'GATEWAY_ID'
+notice de.lukaskollmer.ApodiniLambda.AWSIntegration : Invoke URL: https://GATEWAY_ID.execute-api.eu-central-1.amazonaws.com/
+```
+
+The Deployment provider automatically decomposes the web service in 12 Lambda functions which are deployed behind an AWS Gateway.
+You can delete the Lambda functions and API Gateway routes using the `remove-deployment` subcommand. If you keep the API Gateway you can use the Gateway ID in subsequent deployments instead of using `_createNew` as used in the commands above.
+```console
+$ swift run DeploymentTargetAWSLambda remove-deployment --api-gateway-api-id GATEWAY_ID --keep-api-gateway true
+``` 
+
 ## Contributing
 Contributions to this project are welcome. Please make sure to read the [contribution guidelines](https://github.com/Apodini/.github/blob/main/CONTRIBUTING.md) and the [contributor covenant code of conduct](https://github.com/Apodini/.github/blob/main/CODE_OF_CONDUCT.md) first.
 
