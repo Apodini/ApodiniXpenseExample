@@ -35,7 +35,7 @@ struct XpenseWebService: WebService {
         }.metadata {
             Authorize(User.self, using: BearerAuthenticationScheme(), verifiedBy: UserTokenVerifier())
         }
-
+        Text("Hello World! 👋")
         UserComponent()
     }
     
