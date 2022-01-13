@@ -28,23 +28,19 @@ public struct User: Identifiable, LocalFileStorable {
         name
     }
     
-    /// - Parameters:
-    ///   - name: The name of the User of the Xpense Application
-    ///   - token: The token that is used to authenticate the `User` on the XpenseWeb Service
-    public init(name: String, token: String? = nil) {
-        self.name = name
-        
-        if let token = token {
-            self.tokens = [token]
-        }
-    }
     
     /// - Parameters:
     ///   - name: The name of the User of the Xpense Application
     ///   - password: The password that is used to authenticate the `User` on the XpenseWeb Service
-    public init(name: String, password: String) {
+    ///   - token: The token that is used to authenticate the `User` on the XpenseWeb Service
+    public init(name: String, password: String? = nil, token: String? = nil) {
         self.name = name
-        self.passwordHash = password.sha512hash
+        if let password = password {
+            self.passwordHash = password.sha512hash
+        }
+        if let token = token {
+            self.tokens = [token]
+        }
     }
     
     

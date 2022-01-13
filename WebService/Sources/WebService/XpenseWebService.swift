@@ -44,7 +44,7 @@ struct XpenseWebService: WebService {
         REST {
             OpenAPI()
         }
-        EnvironmentValue(LocalStorageModel(reset: reset), \Application.xpenseModel)
+        EnvironmentValue(MockModel(), \Application.xpenseModel)
         ApodiniDeploy(runtimes: [LocalhostRuntime<Self>.self, LambdaRuntime<Self>.self])
     }
 }

@@ -11,7 +11,7 @@ import Foundation
 
 // MARK: MockModel
 /// A `Model` that replaces the content of the Xpense app with a predefined set of elements evey time it is initialized
-public class MockModel: LocalStorageModel {
+public class MockModel: Model {
     /// Helper function creating a TUM Salary
     private static func createSalary(_ account: UUID) -> Transaction {
         Transaction(id: UUID(),
@@ -37,7 +37,7 @@ public class MockModel: LocalStorageModel {
     
     /// Creates a `Model` using mock data for the Xpense Application that resets the information on every application launch
     public init() {
-        let user = User(name: "PSchmiedmayer", token: nil)
+        let user = User(name: "PSchmiedmayer", password: "MyPassword", token: "mEJBJsM8dikn4PcuvU1vl8z868fLV72aLTlP4M7s8+g=")
         
         let paulsWalletId = UUID()
         let paulsWallet = Account(id: paulsWalletId, name: "Paul's Wallet", userID: user.id)
