@@ -22,20 +22,18 @@ import XpenseModel
 /// The `WebService` instance that defines the Xpense Web Service
 @main
 struct XpenseWebService: WebService {
-    @Flag(help: "Remove all users, accounts, and transactions when starting the web service.")
-    var reset = false
     @Option
     var port: Int = 80
     
     
     var content: some Component {
+        Text("Welcome to the Xpense Web Service! 👋")
         Group { // group of access restricted endpoints.
             AccountComponent()
             TransactionComponent()
         }.metadata {
             Authorize(User.self, using: BearerAuthenticationScheme(), verifiedBy: UserTokenVerifier())
         }
-        Text("Hello World! 👋")
         UserComponent()
     }
     
@@ -44,7 +42,6 @@ struct XpenseWebService: WebService {
         REST {
             OpenAPI()
         }
-        EnvironmentValue(MockModel(), \Application.xpenseModel)
         ApodiniDeploy(runtimes: [LocalhostRuntime<Self>.self, LambdaRuntime<Self>.self])
     }
 }

@@ -12,14 +12,10 @@ import XpenseModel
 extension Application {
     /// Holds the `Model` of the web service.
     var xpenseModel: Model {
-        guard let xpenseModel = self.storage[XpenseModelKey.self] else {
-            self.storage[XpenseModelKey.self] = LocalStorageModel()
+        guard let xpenseModel = self.storage[\Application.xpenseModel] else {
+            self.storage[\Application.xpenseModel] = MockModel()
             return self.xpenseModel
         }
         return xpenseModel
-    }
-    
-    struct XpenseModelKey: StorageKey {
-        typealias Value = Model
     }
 }
