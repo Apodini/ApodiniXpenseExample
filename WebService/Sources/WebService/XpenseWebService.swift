@@ -7,14 +7,14 @@
 //
 
 import Apodini
-import ApodiniREST
-import ApodiniOpenAPI
 import ApodiniAuthorization
 import ApodiniAuthorizationBearerScheme
 import ApodiniDeploy
-import DeploymentTargetLocalhostRuntime
-import DeploymentTargetAWSLambdaRuntime
+import ApodiniOpenAPI
+import ApodiniREST
 import ArgumentParser
+import DeploymentTargetAWSLambdaRuntime
+import DeploymentTargetLocalhostRuntime
 import XpenseModel
 
 

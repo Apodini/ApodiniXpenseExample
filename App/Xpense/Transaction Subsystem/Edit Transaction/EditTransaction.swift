@@ -6,9 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
+import CoreLocation
 import SwiftUI
 import XpenseModel
-import CoreLocation
 
 
 // MARK: - EditTransaction
