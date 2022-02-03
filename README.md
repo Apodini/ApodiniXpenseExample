@@ -50,8 +50,26 @@ You can use the following scripts to deploy the web service using the different 
 ```console
 $ git clone https://github.com/Apodini/Apodini.git
 $ cd Apodini
-$ git checkout 0.7.2
-$ swift run DeploymentTargetLocalhost ../WebService --product-name WebService
+$ git checkout 0.8.0
+$ swift run LocalhostDeploymentProvider ../WebService --product-name WebService
+[...]
+notice DeploymentTargetLocalhost : Compiling target 'WebService'
+[...]
+info DeploymentTargetLocalhost.ProxyServer : Server starting on 0.0.0.0:80
+[...]
+info org.apodini.application : Server starting on 0.0.0.0:52011
+info org.apodini.application : Server starting on 0.0.0.0:52003
+info org.apodini.application : Server starting on 0.0.0.0:52007
+info org.apodini.application : Server starting on 0.0.0.0:52005
+info org.apodini.application : Server starting on 0.0.0.0:52009
+info org.apodini.application : Server starting on 0.0.0.0:52001
+info org.apodini.application : Server starting on 0.0.0.0:52002
+info org.apodini.application : Server starting on 0.0.0.0:52012
+info org.apodini.application : Server starting on 0.0.0.0:52006
+info org.apodini.application : Server starting on 0.0.0.0:52000
+info org.apodini.application : Server starting on 0.0.0.0:52010
+info org.apodini.application : Server starting on 0.0.0.0:52004
+info org.apodini.application : Server starting on 0.0.0.0:52008
 ```
 
 ### AWS Lambda Deployment Provider
@@ -65,10 +83,30 @@ AWS Access Key ID and the AWS Secret Access Key need to have access to the S3 Bu
 ```console
 $ git clone https://github.com/Apodini/Apodini.git
 $ cd Apodini
-$ git checkout 0.7.2
-$ swift run DeploymentTargetAWSLambda deploy ../WebService --product-name WebService --s3-bucket-name apodinixpenseexample --aws-api-gateway-api-id _createNew
-notice de.lukaskollmer.ApodiniLambda.AWSIntegration : Deployed 12 lambdas to api gateway w/ id 'GATEWAY_ID'
-notice de.lukaskollmer.ApodiniLambda.AWSIntegration : Invoke URL: https://GATEWAY_ID.execute-api.eu-central-1.amazonaws.com/
+$ git checkout 0.8.0
+$ swift run AWSLambdaDeploymentProvider deploy ../WebService --product-name WebService --s3-bucket-name apodinixpenseexample
+[...]
+notice apodini.ApodiniLambda : Preparing docker image
+[...]
+notice apodini.ApodiniLambda : Successfully built docker image. image name: apodini-lambda-builder
+notice apodini.ApodiniLambda : Generating web service structure
+[...]
+notice apodini.ApodiniLambda : Successfully generated web service structure
+notice apodini.ApodiniLambda : Compiling SPM target 'WebService' for lambda
+[...]
+notice apodini.ApodiniLambda : Deploying to AWS
+[...]
+notice apodini.ApodiniLambda.AWSIntegration : Creating lambda package
+notice apodini.ApodiniLambda.AWSIntegration : Zipping lambda package
+notice apodini.ApodiniLambda.AWSIntegration : Uploading lambda package to s3://apodinixpenseexample/apodini-lambda/lambda.out.zip
+S3 upload done.
+notice apodini.ApodiniLambda.AWSIntegration : Creating lambda functions for nodes in the web service deployment structure (#nodes: 13)
+[...]
+notice apodini.ApodiniLambda.AWSIntegration : Importing API definition into the API Gateway
+notice apodini.ApodiniLambda.AWSIntegration : Updating API Gateway name
+notice apodini.ApodiniLambda.AWSIntegration : Deployed 13 lambdas to api gateway w/ id 'GATEWAY_ID'
+notice apodini.ApodiniLambda.AWSIntegration : Invoke URL: https://GATEWAY_ID.execute-api.eu-central-1.amazonaws.com/
+notice apodini.ApodiniLambda : Done! Successfully applied the deployment.
 ```
 
 The Deployment provider automatically decomposes the web service in 12 Lambda functions which are deployed behind an AWS Gateway.

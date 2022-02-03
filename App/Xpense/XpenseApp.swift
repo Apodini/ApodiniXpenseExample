@@ -14,9 +14,9 @@ import SwiftUI
 struct XpenseApp: App {
     @StateObject var model: Model = {
         #if RELEASE
-            return RestfulModel()
+            return MockModel()
         #else
-            return LocalStorageModel()
+            return MockModel()
         #endif
     }()
     

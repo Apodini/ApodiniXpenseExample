@@ -9,12 +9,12 @@
 import Apodini
 import ApodiniAuthorization
 import ApodiniAuthorizationBearerScheme
-import ApodiniDeploy
+import ApodiniDeployer
 import ApodiniOpenAPI
 import ApodiniREST
 import ArgumentParser
-import DeploymentTargetAWSLambdaRuntime
-import DeploymentTargetLocalhostRuntime
+import AWSLambdaDeploymentProviderRuntime
+import LocalhostDeploymentProviderRuntime
 import XpenseModel
 
 
@@ -27,12 +27,16 @@ struct XpenseWebService: WebService {
     
     
     var content: some Component {
-        Text("Welcome to the Xpense Web Service! 👋")
+        Text("Welcome to the Xpense Web Service!")
         Group { // group of access restricted endpoints.
             AccountComponent()
             TransactionComponent()
         }.metadata {
-            Authorize(User.self, using: BearerAuthenticationScheme(), verifiedBy: UserTokenVerifier())
+            Authorize(
+                User.self,
+                using: BearerAuthenticationScheme(),
+                verifiedBy: UserTokenVerifier()
+            )
         }
         UserComponent()
     }
@@ -42,6 +46,9 @@ struct XpenseWebService: WebService {
         REST {
             OpenAPI()
         }
-        ApodiniDeploy(runtimes: [LocalhostRuntime<Self>.self, LambdaRuntime<Self>.self])
+        ApodiniDeployer(runtimes: [
+            Localhost.self,
+            AWSLambda.self
+        ])
     }
 }

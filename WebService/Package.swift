@@ -20,7 +20,7 @@ let package = Package(
         .executable(name: "WebService", targets: ["WebService"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Apodini/Apodini.git", .branch("lukaskollmer/fix-lambda-integration")),
+        .package(url: "https://github.com/Apodini/Apodini.git", .branch("develop")),
         .package(name: "Shared", path: "../Shared")
     ],
     targets: [
@@ -33,9 +33,9 @@ let package = Package(
                 .product(name: "ApodiniAuthorization", package: "Apodini"),
                 .product(name: "ApodiniAuthorizationBasicScheme", package: "Apodini"),
                 .product(name: "ApodiniAuthorizationBearerScheme", package: "Apodini"),
-                .product(name: "ApodiniDeploy", package: "Apodini"),
-                .product(name: "DeploymentTargetLocalhostRuntime", package: "Apodini"),
-                .product(name: "DeploymentTargetAWSLambdaRuntime", package: "Apodini"),
+                .product(name: "ApodiniDeployer", package: "Apodini"),
+                .product(name: "LocalhostDeploymentProviderRuntime", package: "Apodini"),
+                .product(name: "AWSLambdaDeploymentProviderRuntime", package: "Apodini"),
                 .product(name: "XpenseModel", package: "Shared")
             ]
         )
