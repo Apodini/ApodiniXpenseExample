@@ -33,6 +33,7 @@ jobs:
     with:
       packagename: WebService
       path: ./WebService/
+      test: false
   reuse_action:
     name: REUSE Compliance Check
     uses: Apodini/.github/.github/workflows/reuse.yml@v1

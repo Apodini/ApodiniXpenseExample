@@ -25,8 +25,10 @@ struct XpenseApp: App {
         WindowGroup {
             MainView()
                 .alert(isPresented: model.presentingErrorMessage) {
-                    Alert(title: Text("Error"),
-                          message: Text(model.errorMessage ?? ""))
+                    Alert(
+                        title: Text("Error"),
+                        message: Text(model.errorMessage ?? "")
+                    )
                 }
                 .environmentObject(model)
         }
