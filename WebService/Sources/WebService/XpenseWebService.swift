@@ -7,11 +7,14 @@
 //
 
 import Apodini
-import ApodiniREST
-import ApodiniOpenAPI
 import ApodiniAuthorization
 import ApodiniAuthorizationBearerScheme
+import ApodiniDeployer
+import ApodiniOpenAPI
+import ApodiniREST
 import ArgumentParser
+import AWSLambdaDeploymentProviderRuntime
+import LocalhostDeploymentProviderRuntime
 import XpenseModel
 
 
@@ -19,20 +22,22 @@ import XpenseModel
 /// The `WebService` instance that defines the Xpense Web Service
 @main
 struct XpenseWebService: WebService {
-    @Flag(help: "Remove all users, accounts, and transactions when starting the web service.")
-    var reset = false
     @Option
     var port: Int = 80
     
     
     var content: some Component {
+        Text("Welcome to the Xpense Web Service!")
         Group { // group of access restricted endpoints.
             AccountComponent()
             TransactionComponent()
         }.metadata {
-            Authorize(User.self, using: BearerAuthenticationScheme(), verifiedBy: UserTokenVerifier())
+            Authorize(
+                User.self,
+                using: BearerAuthenticationScheme(),
+                verifiedBy: UserTokenVerifier()
+            )
         }
-
         UserComponent()
     }
     
@@ -41,6 +46,9 @@ struct XpenseWebService: WebService {
         REST {
             OpenAPI()
         }
-        EnvironmentValue(LocalStorageModel(reset: reset), \Application.xpenseModel)
+        ApodiniDeployer(runtimes: [
+            Localhost.self,
+            AWSLambda.self
+        ])
     }
 }

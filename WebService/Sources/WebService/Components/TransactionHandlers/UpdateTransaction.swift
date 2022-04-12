@@ -33,6 +33,12 @@ struct UpdateTransaction: Handler {
     
     @Authorized(User.self) var user
     
+    
+    var metadata: Metadata {
+        Operation(.update)
+    }
+    
+    
     func handle() async throws -> Transaction {
         let user = try user()
         
@@ -41,7 +47,7 @@ struct UpdateTransaction: Handler {
         }
         
         guard xpenseModel.account(oldTransaction.account)?.userID == user.id,
-              xpenseModel.account(transaction.account ?? oldTransaction.account)?.userID == user.id else {
+              xpenseModel.account(transaction.account ?? oldTransaction.account)?.userID == user.id else { // swiftlint:disable:this indentation_width
             throw accountNotFound
         }
         
@@ -63,9 +69,5 @@ struct UpdateTransaction: Handler {
         }
         
         return try await xpenseModel.save(oldTransaction)
-    }
-    
-    var metadata: Metadata {
-        Operation(.update)
     }
 }

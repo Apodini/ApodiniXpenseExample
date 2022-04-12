@@ -8,8 +8,8 @@
 
 import Apodini
 import ApodiniAuthorization
-import XpenseModel
 import Foundation
+import XpenseModel
 
 
 struct GetTransaction: Handler {
@@ -25,7 +25,7 @@ struct GetTransaction: Handler {
         let user = try user()
         
         guard let transaction = xpenseModel.transaction(transactionId),
-              let account = xpenseModel.account(transaction.account),
+              let account = xpenseModel.account(transaction.account), // swiftlint:disable:this indentation_width
               account.userID == user.id else {
             throw transactionNotFound
         }

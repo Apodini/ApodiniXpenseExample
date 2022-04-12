@@ -28,6 +28,12 @@ struct UpdateAccount: Handler {
     
     @Authorized(User.self) var user
     
+    
+    var metadata: Metadata {
+        Operation(.update)
+    }
+    
+    
     func handle() async throws -> Account {
         let user = try user()
         
@@ -36,9 +42,5 @@ struct UpdateAccount: Handler {
         }
         
         return try await xpenseModel.save(Account(id: id, name: updatedAccount.name, userID: user.id))
-    }
-    
-    var metadata: Metadata {
-        Operation(.update)
     }
 }

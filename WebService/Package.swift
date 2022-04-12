@@ -20,7 +20,7 @@ let package = Package(
         .executable(name: "WebService", targets: ["WebService"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Apodini/Apodini.git", .upToNextMinor(from: "0.6.2")),
+        .package(url: "https://github.com/Apodini/Apodini.git", .upToNextMinor(from: "0.9.1")),
         .package(name: "Shared", path: "../Shared")
     ],
     targets: [
@@ -33,6 +33,9 @@ let package = Package(
                 .product(name: "ApodiniAuthorization", package: "Apodini"),
                 .product(name: "ApodiniAuthorizationBasicScheme", package: "Apodini"),
                 .product(name: "ApodiniAuthorizationBearerScheme", package: "Apodini"),
+                .product(name: "ApodiniDeployer", package: "Apodini"),
+                .product(name: "LocalhostDeploymentProviderRuntime", package: "Apodini"),
+                .product(name: "AWSLambdaDeploymentProviderRuntime", package: "Apodini"),
                 .product(name: "XpenseModel", package: "Shared")
             ]
         )

@@ -21,20 +21,22 @@ struct DeleteAccount: Handler {
     
     @Authorized(User.self) var user
     
+    
+    var metadata: Metadata {
+        Operation(.delete)
+    }
+    
+    
     func handle() async throws -> Status {
         let user = try user()
         
         guard let account = xpenseModel.account(id),
-              account.userID == user.id else {
+              account.userID == user.id else { // swiftlint:disable:this indentation_width
             throw notFound
         }
         
         try await xpenseModel.delete(account: id)
         
         return .noContent
-    }
-    
-    var metadata: Metadata {
-        Operation(.delete)
     }
 }

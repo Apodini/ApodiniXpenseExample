@@ -1,0 +1,47 @@
+#
+# This source file is part of the Apodini open source project
+#
+# SPDX-FileCopyrightText: 2021 Paul Schmiedmayer and the project authors (see CONTRIBUTORS.md) <paul.schmiedmayer@tum.de>
+#
+# SPDX-License-Identifier: MIT
+#
+
+name: Pull Request
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  macosclient:
+    name: macOS Client
+    runs-on: macos-12
+    steps:
+    - uses: actions/checkout@v2
+    - uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest
+    - name: Check Environment
+      run: |
+          xcodebuild -version
+          swift --version
+    - name: Build and test
+      run: xcodebuild test -scheme Xpense -destination 'platform=iOS Simulator,name=iPhone 13'
+  build_and_test:
+    name: Build and Test
+    uses: Apodini/.github/.github/workflows/build-and-test.yml@v1
+    with:
+      packagename: WebService
+      path: ./WebService/
+      test: false
+  reuse_action:
+    name: REUSE Compliance Check
+    uses: Apodini/.github/.github/workflows/reuse.yml@v1
+  swiftlint:
+    name: SwiftLint
+    uses: Apodini/.github/.github/workflows/swiftlint.yml@v1
+  docker-compose-test:
+    name: Docker Compose Test
+    uses: Apodini/.github/.github/workflows/docker-compose-test.yml@v1
+    with:
+      testscript: test.sh

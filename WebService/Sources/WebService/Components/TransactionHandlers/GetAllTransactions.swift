@@ -16,6 +16,7 @@ struct GetAllTransactions: Handler {
     
     @Authorized(User.self) var user
     
+    
     func handle() throws -> [Transaction] {
         let user = try user()
         return user.transactions(xpenseModel)

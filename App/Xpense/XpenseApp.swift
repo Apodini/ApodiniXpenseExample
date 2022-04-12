@@ -6,17 +6,17 @@
 // SPDX-License-Identifier: MIT
 //
 
-import SwiftUI
 import RESTfulXpenseModel
+import SwiftUI
 
 
 @main
 struct XpenseApp: App {
     @StateObject var model: Model = {
         #if RELEASE
-            return RestfulModel()
+            return MockModel()
         #else
-            return LocalStorageModel()
+            return MockModel()
         #endif
     }()
     
@@ -25,8 +25,10 @@ struct XpenseApp: App {
         WindowGroup {
             MainView()
                 .alert(isPresented: model.presentingErrorMessage) {
-                    Alert(title: Text("Error"),
-                          message: Text(model.errorMessage ?? ""))
+                    Alert(
+                        title: Text("Error"),
+                        message: Text(model.errorMessage ?? "")
+                    )
                 }
                 .environmentObject(model)
         }

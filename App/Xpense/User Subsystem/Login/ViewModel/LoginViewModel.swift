@@ -6,8 +6,8 @@
 // SPDX-License-Identifier: MIT
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 import XpenseModel
 
 
@@ -30,7 +30,7 @@ class LoginViewModel: ObservableObject {
     @Published var password: String = ""
     /// The current password that is typed in the second `Textfield` in the login view
     @Published var passwordAgain: String = ""
-    //Output
+    // Output
     /// Indicates whether the primary `Button` of the login view sould be enabled
     @Published var enablePrimaryButton = true
     /// Indicates whether the Model is currently loading data
