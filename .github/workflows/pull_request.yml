@@ -26,7 +26,7 @@ jobs:
           xcodebuild -version
           swift --version
     - name: Build and test
-      run: xcodebuild test -scheme App -destination 'platform=iOS Simulator,name=iPhone 13'
+      run: xcodebuild test -scheme Xpense -destination 'platform=iOS Simulator,name=iPhone 13'
   build_and_test:
     name: Build and Test
     uses: Apodini/.github/.github/workflows/build-and-test.yml@v1
