@@ -31,7 +31,7 @@ struct DeleteAccount: Handler {
         let user = try user()
         
         guard let account = xpenseModel.account(id),
-              account.userID == user.id else {
+              account.userID == user.id else { // swiftlint:disable:this indentation_width
             throw notFound
         }
         

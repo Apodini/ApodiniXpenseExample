@@ -76,9 +76,11 @@ public class MockModel: Model {
     }
     
     /// Helper function creating a purchase at the TUM math and informatics building
-    private static func createTumFmiPurchase(amount: Int,
-                                             description: String,
-                                             account: UUID) -> Transaction {
+    private static func createTumFmiPurchase(
+        amount: Int,
+        description: String,
+        account: UUID
+    ) -> Transaction {
         Transaction(
             id: UUID(),
             amount: amount,
@@ -88,5 +90,4 @@ public class MockModel: Model {
             account: account
         )
     }
-    
 }

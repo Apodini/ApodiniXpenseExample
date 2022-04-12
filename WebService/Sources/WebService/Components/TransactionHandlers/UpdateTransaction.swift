@@ -47,7 +47,7 @@ struct UpdateTransaction: Handler {
         }
         
         guard xpenseModel.account(oldTransaction.account)?.userID == user.id,
-              xpenseModel.account(transaction.account ?? oldTransaction.account)?.userID == user.id else {
+              xpenseModel.account(transaction.account ?? oldTransaction.account)?.userID == user.id else { // swiftlint:disable:this indentation_width
             throw accountNotFound
         }
         
