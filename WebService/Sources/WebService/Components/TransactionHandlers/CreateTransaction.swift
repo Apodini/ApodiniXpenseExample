@@ -30,6 +30,12 @@ struct CreateTransaction: Handler {
     
     @Authorized(User.self) var user
     
+    
+    var metadata: Metadata {
+        Operation(.create)
+    }
+    
+    
     func handle() async throws -> Transaction {
         let user = try user()
         
@@ -46,9 +52,5 @@ struct CreateTransaction: Handler {
                 account: transaction.account
             )
         )
-    }
-    
-    var metadata: Metadata {
-        Operation(.create)
     }
 }

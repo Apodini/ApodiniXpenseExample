@@ -25,8 +25,8 @@ struct GetTransaction: Handler {
         let user = try user()
         
         guard let transaction = xpenseModel.transaction(transactionId),
-              let account = xpenseModel.account(transaction.account),
-              account.userID == user.id else {
+              let account = xpenseModel.account(transaction.account), // swiftlint:disable:this indentation_width
+              account.userID == user.id else { // swiftlint:disable:this indentation_width
             throw transactionNotFound
         }
         

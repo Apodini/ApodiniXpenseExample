@@ -12,33 +12,6 @@ import Foundation
 // MARK: MockModel
 /// A `Model` that replaces the content of the Xpense app with a predefined set of elements evey time it is initialized
 public class MockModel: Model {
-    /// Helper function creating a TUM Salary
-    private static func createSalary(_ account: UUID) -> Transaction {
-        Transaction(
-            id: UUID(),
-            amount: 345678,
-            description: "Salary",
-            date: Date(minutesFromNow: -100000),
-            location: Coordinate(48.148135, 11.566634),
-            account: account
-        )
-    }
-    
-    /// Helper function creating a purchase at the TUM math and informatics building
-    private static func createTumFmiPurchase(amount: Int,
-                                             description: String,
-                                             account: UUID) -> Transaction {
-        Transaction(
-            id: UUID(),
-            amount: amount,
-            description: description,
-            date: Date(minutesFromNow: Int.random(in: -60...0)),
-            location: Coordinate(48.262432, 11.667976),
-            account: account
-        )
-    }
-    
-    
     /// Creates a `Model` using mock data for the Xpense Application that resets the information on every application launch
     public init() {
         let user = User(name: "PSchmiedmayer", password: "MyPassword", token: "mEJBJsM8dikn4PcuvU1vl8z868fLV72aLTlP4M7s8+g=")
@@ -88,4 +61,32 @@ public class MockModel: Model {
         
         super.init(users: Set([user]), accounts: accounts, transactions: transactions)
     }
+    
+    
+    /// Helper function creating a TUM Salary
+    private static func createSalary(_ account: UUID) -> Transaction {
+        Transaction(
+            id: UUID(),
+            amount: 345678,
+            description: "Salary",
+            date: Date(minutesFromNow: -100000),
+            location: Coordinate(48.148135, 11.566634),
+            account: account
+        )
+    }
+    
+    /// Helper function creating a purchase at the TUM math and informatics building
+    private static func createTumFmiPurchase(amount: Int,
+                                             description: String,
+                                             account: UUID) -> Transaction {
+        Transaction(
+            id: UUID(),
+            amount: amount,
+            description: description,
+            date: Date(minutesFromNow: Int.random(in: -60...0)),
+            location: Coordinate(48.262432, 11.667976),
+            account: account
+        )
+    }
+    
 }

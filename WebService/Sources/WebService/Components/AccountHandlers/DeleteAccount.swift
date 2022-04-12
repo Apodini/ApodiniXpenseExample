@@ -21,6 +21,12 @@ struct DeleteAccount: Handler {
     
     @Authorized(User.self) var user
     
+    
+    var metadata: Metadata {
+        Operation(.delete)
+    }
+    
+    
     func handle() async throws -> Status {
         let user = try user()
         
@@ -32,9 +38,5 @@ struct DeleteAccount: Handler {
         try await xpenseModel.delete(account: id)
         
         return .noContent
-    }
-    
-    var metadata: Metadata {
-        Operation(.delete)
     }
 }

@@ -18,16 +18,18 @@ struct Login: Handler {
     
     @Authorized(User.self) var user
     
-    func handle() async throws -> String {
-        var user = try user()
-        let token = await xpenseModel.createToken(for: &user)
-        
-        return token
-    }
     
     var metadata: Metadata {
         Operation(.create)
         
         Authorize(User.self, using: BasicAuthenticationScheme(), verifiedBy: UserCredentialsVerifier())
+    }
+    
+    
+    func handle() async throws -> String {
+        var user = try user()
+        let token = await xpenseModel.createToken(for: &user)
+        
+        return token
     }
 }

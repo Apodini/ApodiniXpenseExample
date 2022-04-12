@@ -23,13 +23,15 @@ struct CreateAccount: Handler {
     
     @Authorized(User.self) var user
     
+    
+    var metadata: Metadata {
+        Operation(.create)
+    }
+    
+    
     func handle() async throws -> Account {
         let user = try user()
         
         return try await xpenseModel.save(Account(name: account.name, userID: user.id))
-    }
-    
-    var metadata: Metadata {
-        Operation(.create)
     }
 }

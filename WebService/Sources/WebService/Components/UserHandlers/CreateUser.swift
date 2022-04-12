@@ -24,15 +24,16 @@ struct CreateUser: Handler {
     @Throws(.badInput, reason: "An Account with the name already exists") var userAlreadyExists: ApodiniError
     
     
+    var metadata: Metadata {
+        Operation(.create)
+    }
+    
+    
     func handle() async throws -> User {
         do {
             return try await xpenseModel.signUp(user.name, password: user.password)
         } catch {
             throw userAlreadyExists
         }
-    }
-    
-    var metadata: Metadata {
-        Operation(.create)
     }
 }
